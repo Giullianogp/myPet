@@ -7,5 +7,4 @@ YellowBox.ignoreWarnings([
     'Module RCTImageLoader'
 ])
 
-
-AppRegistry.registerComponent('myPet', () => App);
+AppRegistry.registerComponent('mypet', () => App);
