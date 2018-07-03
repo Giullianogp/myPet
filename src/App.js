@@ -1,8 +1,7 @@
 import { SignIn, SignUp, Home, PetDetail } from '../src/components';
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { Toast } from 'native-base'
-
-import firebase from 'react-native-firebase';
+import { Root } from 'native-base';
+import React from 'react';
 
 const AppStack = createStackNavigator(
     {
@@ -46,7 +45,7 @@ const AuthStack = createStackNavigator(
     }
 );
 
-export default createSwitchNavigator(
+const AppNavigator = createSwitchNavigator(
     {
         Cadastro: AuthStack,
         App: AppStack
@@ -67,3 +66,7 @@ export default createSwitchNavigator(
     }
 );
 
+export default () =>
+  <Root>
+    <AppNavigator />
+  </Root>;

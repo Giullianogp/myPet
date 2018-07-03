@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Form, Item, Label, Input, Button, Text, Icon, View } from 'native-base';
+import { Container, Content, Form, Item, Label, Input, Button, Text, Icon, View, Root } from 'native-base';
 
 
 export default class Cadastro extends Component {

@@ -25,23 +25,31 @@ export default class Login extends Component {
 
         const { email, senha } = this.state;
 
-        if (email !== undefined || senha !== undefined) {
-            Toast.show({ text: "Email ou senha inválido", buttonText: "Ok", type: "danger" });
+        this.props.navigation.navigate('App');
 
-        } else {
+        // if (!this.validarInfo(email, senha)) {
+        //     this.toastError();
+        // } else {
 
-            try {
-                const user = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, senha);
+        //     try {
+        //         const user = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, senha);
 
-                this.setState({ isAuthenticated: true })
+        //         this.setState({ isAuthenticated: true })
 
-                this.props.navigation.navigate('App');
-            } catch (err) {
-                Toast.show({ text: err, buttonText: "Ok", type: "danger" });
-            }
-        }
+        //         this.props.navigation.navigate('App');
+        //     } catch (err) {
+        //         this.toastError();
+        //     }
+        // }
     }
 
+    toastError() {
+        Toast.show({ text: "Email ou senha inválidos", buttonText: "Ok", type: "danger" });
+    }
+
+    validarInfo(email, senha) {
+        return !((email === undefined || email.length == 0) || (senha === undefined || senha.length == 0));
+    }
 
     render() {
         return (
