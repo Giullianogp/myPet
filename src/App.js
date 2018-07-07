@@ -1,7 +1,8 @@
-import { SignIn, SignUp, Home, PetDetail } from '../src/components';
+import { SignIn, SignUp, Home, PetDetail, AppIntro } from '../src/components';
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Root } from 'native-base';
 import React from 'react';
+
 
 const AppStack = createStackNavigator(
     {
@@ -66,7 +67,41 @@ const AppNavigator = createSwitchNavigator(
     }
 );
 
+const AppI = createSwitchNavigator(
+    {
+        Intro: AppIntro,
+        AppLogin: AppNavigator
+    },
+    {
+        initialRouteName: 'Intro',
+        navigationOptions: {
+            headerBackTitle: null,
+            headerTintColor: '#3E9B91',
+            headerStyle: {
+                backgroundColor: '#00C8BB',
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: '#fff'
+            },
+        }
+    }
+);
+
+
+
 export default () =>
-  <Root>
-    <AppNavigator />
-  </Root>;
+
+    // const appInitial = true ? <AppNavigator /> : <AppIntro/> 
+
+    // return (
+    //     <Root>
+    //         {appInitial}
+    //     </Root>); 
+
+
+
+    <Root>
+        <AppI/> 
+    </Root>;
+

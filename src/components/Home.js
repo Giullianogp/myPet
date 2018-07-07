@@ -12,35 +12,43 @@ export default class Home extends Component {
 
     constructor(props) {
         super(props)
+        this.ref = firebase.firestore().collection('pets');
+        this.unsubscribe = null;
 
-        // this.state = {
-        //     pets: []
-        // }
         this.state = {
-            pets: [
-                { nome: "Mel", url: "https://cdn4.iconfinder.com/data/icons/tail-waggers/120/bows-512.png" },
-                { nome: "Bilie", url: "https://cdn4.iconfinder.com/data/icons/tail-waggers/120/chihuahua_bone-512.png" },
-            ]
-        }
+            loading: true,
+            pets: []
+        };
 
-       this.ref = firebase.firestore().collection('pets');
     }
 
     componentDidMount() {
-        // this.unsubscribe = this.ref.onSnapshot((query) => {
-        //     const petsDoc = []
-        //     query.forEach((doc) => {
-        //         petsDoc.push({
-        //             nome: doc.data().nome,
-        //             url: doc.data.url,
-        //             id = doc.id
-        //         })
-        //     });
-        //     this.setState({ pets: petsDoc });
-        // });
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    onCollectionUpdate = (querySnapshot) => {
+        const pets = [];
+        querySnapshot.forEach((produto) => {
+            const { nome, nascimento, url } = produto.data();
+            pets.push({
+                nome,
+                nascimento,
+                url
+            });
+        });
+        this.setState({
+            loading: false,
+            pets
+        });
+
     }
 
     renderRow(pet) {
+
         return (
             <ListItem itemDivider={false} onPress={() => this.props.navigation.navigate('PetDetail', { pet: { nome: pet.nome, url: pet.url } })}>
                 <Thumbnail square size={80} source={{ uri: pet.url }} />
@@ -56,13 +64,13 @@ export default class Home extends Component {
             <Container>
                 <Content>
                     <View style={{ flex: 1 }}>
-                    <List style={{ flex: 1 }} dataArray={this.state.pets}
-                        renderRow={(pet) => this.renderRow(pet)}>
-                    </List>
+                        <List style={{ flex: 1 }} dataArray={this.state.pets}
+                            renderRow={(pet) => this.renderRow(pet)}>
+                        </List>
 
-                    <Button transparent block onPress={() => this.props.navigation.navigate('PetDetail')}>
-                        <Text>Adicionar</Text>
-                    </Button>
+                        <Button transparent block onPress={() => this.props.navigation.navigate('PetDetail')}>
+                            <Text>Adicionar</Text>
+                        </Button>
                     </View>
                 </Content>
             </Container>
